@@ -17,7 +17,7 @@ class PTTViewModel extends ChangeNotifier {
   late IO.Socket _socket;
   final FlutterSound _flutterSound = new FlutterSound();
 
-  PTTState _state = const PTTState(isRecording: false, audioChunks: [], username: 'starchykov');
+  PTTState _state = const PTTState(isRecording: false, audioChunks: [], username: 'Ivan Starchykov');
 
   PTTState get state => _state;
 
@@ -55,7 +55,6 @@ class PTTViewModel extends ChangeNotifier {
     _socket.on('socketUpdates', (data) async {
      List usersJSON = data['usersOnline'] ?? [];
      List<SessionUser> usersOnline = usersJSON.map((e) => SessionUser(name: e['userName'], userUUID: e['userCode'])).toList();
-      if (usersOnline.length <= 3) usersOnline = [...usersOnline, ...[const SessionUser(), const SessionUser()]];
       _state = _state.copyWith(usersCount: data['userCounter'] ?? 0, usersOnline: usersOnline);
       notifyListeners();
     });
@@ -71,13 +70,14 @@ class PTTViewModel extends ChangeNotifier {
       _flutterSound.thePlayer.startPlayer(
           fromDataBuffer: _state.audioToPlay,
           codec: Codec.pcm16,
-          whenFinished: () => _flutterSound.thePlayer.closePlayer());
+          whenFinished: () => _flutterSound.thePlayer.closePlayer(),
+      );
     });
   }
 
   void _createSocketConnection() {
     String userCode = UniqueKey().toString();
-    String userName = UniqueKey().toString();
+    String userName = _state.username;
     _state= _state.copyWith(username: userName);
 
     _socket = IO.io(

@@ -17,15 +17,16 @@ class PTT extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PTTViewModel viewModel = context.read<PTTViewModel>();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         border: null,
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         middle: const Text('PTT'),
         trailing: CupertinoButton(
           minSize: double.minPositive,
           padding: EdgeInsets.zero,
-          onPressed: () {},
+          onPressed: () => viewModel.navigateToSettings(),
           child: const Icon(CupertinoIcons.settings),
         ),
       ),

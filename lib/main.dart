@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:walkie_talkie_app/ui/app_navigation/app_navigation.dart';
 import 'package:walkie_talkie_app/ui/screens/ptt_screen/ptt_screen.dart';
 
 void main() => runApp(const MyApp());
@@ -8,10 +9,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppNavigation appNavigation = AppNavigation();
     return CupertinoApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       home: PTT.render(),
+      routes: appNavigation.routes,
+      initialRoute: AppNavigationRoutes.pttScreen,
     );
   }
 }

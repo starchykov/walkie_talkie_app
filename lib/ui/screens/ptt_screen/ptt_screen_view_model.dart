@@ -8,6 +8,7 @@ import 'package:mic_stream/mic_stream.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:walkie_talkie_app/domain/model/session_user_model.dart';
+import 'package:walkie_talkie_app/ui/app_navigation/app_navigation.dart';
 import 'package:walkie_talkie_app/ui/screens/ptt_screen/ptt_screen_state.dart';
 
 /// This PTT functionality only covers the MVP implementation and must be reviewed.
@@ -87,11 +88,6 @@ class PTTViewModel extends ChangeNotifier {
     );
   }
 
-  void closeConnection() {
-    _socket.close();
-    Navigator.of(context).pop();
-  }
-
   void startListening() async {
     print('START LISTENING');
     if (_state.isRecording) return;
@@ -149,6 +145,15 @@ class PTTViewModel extends ChangeNotifier {
 
     // currentSamples = null;
     // startTime = null;
+  }
+
+  void closeConnection() {
+    _socket.close();
+    Navigator.of(context).pop();
+  }
+
+  void navigateToSettings() {
+    Navigator.of(context).pushNamedAndRemoveUntil(AppNavigationRoutes.settingScreen, (route) => true);
   }
 
 // void _calculateSamples(samples) {
@@ -212,6 +217,5 @@ class PTTViewModel extends ChangeNotifier {
 //     currentSamples = [];
 //   }
 // }
-
 
 }
